@@ -1,5 +1,9 @@
 package top.godtm.ocr;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,62 +11,23 @@ import java.util.List;
  * 彩票单条记录
  * Created by jingangsheng on 21/01/2018.
  */
+@ToString
 public class Record {
+    @Getter @Setter
     private String rowNumber;
-    private List<String> redBalls;
-    private List<String> blueBalls;
+    @Getter
+    private List<String> redBalls = new ArrayList<>(5);
+    @Getter
+    private List<String> blueBalls = new ArrayList<>(2);
 
-    public void addRedBall(String number) {
-        if (null == redBalls) {
-            redBalls = new ArrayList<>(5);
-        }
+    public Record addRedBall(String number) {
         redBalls.add(number);
+        return this;
     }
 
-    public void addBlueBall(String number) {
-        if (null == blueBalls) {
-            blueBalls = new ArrayList<>(2);
-        }
-
+    public Record addBlueBall(String number) {
         blueBalls.add(number);
+        return this;
     }
 
-    public String getRowNumber() {
-        return rowNumber;
-    }
-
-    public void setRowNumber(String rowNumber) {
-        this.rowNumber = rowNumber;
-    }
-
-    public List<String> getRedBalls() {
-        return redBalls;
-    }
-
-    public void setRedBalls(List<String> redBalls) {
-        this.redBalls = redBalls;
-    }
-
-    public List<String> getBlueBalls() {
-        return blueBalls;
-    }
-
-    public void setBlueBalls(List<String> blueBalls) {
-        this.blueBalls = blueBalls;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(rowNumber).append(" ");
-        for (String redBall : redBalls) {
-            sb.append(redBall);
-        }
-        sb.append("+");
-        for (String blueBall : blueBalls) {
-            sb.append(blueBall);
-        }
-
-        return sb.toString();
-    }
 }

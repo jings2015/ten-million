@@ -69,6 +69,21 @@ public class TicketController {
         return "index";
     }
 
+    @RequestMapping("/getAwardRecord")
+    @ResponseBody
+    public Object getAwardRecord(){
+        Record awardRecord = new Record();
+        awardRecord.addRedBall("01").addRedBall("02").addRedBall("03").addRedBall("04").addRedBall("05").addBlueBall("06").addBlueBall("07");
+        return awardRecord;
+    }
+
+    @RequestMapping("/getMatchResult")
+    @ResponseBody
+    public Object getMatchResult(){
+        MatchResult matchResult = new MatchResult();
+        return matchResult;
+    }
+
     @RequestMapping("/")
     public String index() {
 
