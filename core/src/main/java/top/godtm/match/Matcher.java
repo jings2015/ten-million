@@ -77,7 +77,7 @@ public class Matcher implements IMatcher {
             case 30:
             case 12:
             case 21:
-            case 2: return "六等奖 10元";
+            case 2: return "六等奖 5元";
             default:
                 return "";
 
