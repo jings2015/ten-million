@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>大乐透兑奖识别</title>
+</head>
+<body>
+<div>
+    <form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+        上传彩票：
+        <input type="file" id="multipartFile" name="multipartFile"/>
+        <input type="submit" value="提交"/>
+    </form>
+
+    <br/><br/>
+
+    <div th:each="str:${result}">
+        <div th:text="${str}"></div>
+    </div>
+</div>
+
+</body>
+</html>
