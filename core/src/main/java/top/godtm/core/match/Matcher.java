@@ -1,7 +1,8 @@
-package top.godtm.match;
+package top.godtm.core.match;
 
-import top.godtm.ocr.Record;
-import top.godtm.ocr.Ticket;
+import org.springframework.stereotype.Component;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.ocr.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  * TODO
  * Created by jingangsheng on 28/01/2018.
  */
+@Component
 public class Matcher implements IMatcher {
     @Override
     public MatchResult match(Record awardNo, Ticket ticket) {

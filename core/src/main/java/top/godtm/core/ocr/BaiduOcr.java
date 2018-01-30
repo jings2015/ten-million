@@ -1,8 +1,9 @@
-package top.godtm.ocr;
+package top.godtm.core.ocr;
 
 import com.baidu.aip.ocr.AipOcr;
 import org.json.JSONObject;
-import top.godtm.properties.OcrProperties;
+import org.springframework.stereotype.Component;
+import top.godtm.core.properties.OcrProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +15,15 @@ import java.util.regex.Pattern;
  * 百度ocr识别彩票
  * Created by jingangsheng on 21/01/2018.
  */
+@Component
 public class BaiduOcr implements IOcr{
-    public static final String APP_ID = OcrProperties.appId;
+    private static final String APP_ID = OcrProperties.appId;
 
-    public static final String API_KEY = OcrProperties.apiKey;
+    private static final String API_KEY = OcrProperties.apiKey;
 
-    public static final String SECRET_KEY = OcrProperties.secretKey;
+    private static final String SECRET_KEY = OcrProperties.secretKey;
 
-    public static final String[] ROW_NUMBERS = {"①", "②", "③", "④", "⑤"};
+    private static final String[] ROW_NUMBERS = {"①", "②", "③", "④", "⑤"};
 
     /**
      * 识别彩票记录

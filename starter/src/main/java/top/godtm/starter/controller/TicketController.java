@@ -1,29 +1,27 @@
 package top.godtm.starter.controller;
 
 import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.http.HttpRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-import top.godtm.match.MatchResult;
-import top.godtm.match.MatcherHelper;
-import top.godtm.ocr.OcrHelper;
-import top.godtm.ocr.Record;
-import top.godtm.ocr.Ticket;
-import top.godtm.search.SearchHelper;
+import top.godtm.core.match.IMatcher;
+import top.godtm.core.match.MatchResult;
+import top.godtm.core.match.Matcher;
+import top.godtm.core.ocr.BaiduOcr;
+import top.godtm.core.ocr.IOcr;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.ocr.Ticket;
+import top.godtm.core.search.ISearch;
+import top.godtm.core.search.SearchDLT;
+import top.godtm.core.search.SearchKaiJiang500;
 
 import javax.servlet.ServletRequest;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
 
 /**
  * TODO
@@ -31,14 +29,21 @@ import java.util.Random;
  */
 @Controller
 public class TicketController {
-    public static final int MAX_PIC_SIZE = 1024 * 1024;
+
+    private static final int MAX_PIC_SIZE = 1024 * 1024;
+
+    @Autowired
+    private BaiduOcr baiduOcr;
+    @Autowired
+    private Matcher matcher;
+    @Autowired
+    private SearchKaiJiang500 searchKaiJiang500;
+    @Autowired
+    private SearchDLT searchDLT;
 
     @RequestMapping("/upload")
-    public String upload(@RequestParam MultipartFile multipartFile, ModelMap modelMap, ServletRequest request) {
+    public String upload(@RequestParam MultipartFile multipartFile, ModelMap modelMap, ServletRequest request) throws Exception {
 
-        OcrHelper ocrHelper = OcrHelper.getInstance();
-        SearchHelper searchHelper = SearchHelper.getInstance();
-        MatcherHelper matcherHelper = MatcherHelper.getInstance();
         byte[] fileBytes = null;
 
         ByteArrayOutputStream baos = null;
@@ -55,14 +60,14 @@ public class TicketController {
         } catch (IOException e) {
             try {
                 baos.close();
-            } catch (IOException e1) {
+            } catch (IOException ignored) {
 
             }
         }
 
-        Ticket ticket = ocrHelper.recognitionPic(fileBytes);
-        Record awardRecord = searchHelper.getAwardNumber(ticket.getNo());
-        MatchResult matchResult = matcherHelper.match(awardRecord, ticket);
+        Ticket ticket = baiduOcr.recognitionPic(fileBytes);
+        Record awardRecord = searchKaiJiang500.getAwardNumber(ticket.getNo());
+        MatchResult matchResult = matcher.match(awardRecord, ticket);
 
         modelMap.addAttribute("result", matchResult.toString().split("\n"));
 
@@ -71,15 +76,13 @@ public class TicketController {
 
     @RequestMapping("/getAwardRecord")
     @ResponseBody
-    public Object getAwardRecord(){
-        Record awardRecord = new Record();
-        awardRecord.addRedBall("01").addRedBall("02").addRedBall("03").addRedBall("04").addRedBall("05").addBlueBall("06").addBlueBall("07");
-        return awardRecord;
+    public Object getAwardRecord(String no) throws Exception {
+        return searchDLT.getAwardNumber(no);
     }
 
     @RequestMapping("/getMatchResult")
     @ResponseBody
-    public Object getMatchResult(){
+    public Object getMatchResult() {
         MatchResult matchResult = new MatchResult();
         return matchResult;
     }

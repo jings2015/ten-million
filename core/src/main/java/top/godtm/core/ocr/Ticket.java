@@ -1,4 +1,4 @@
-package top.godtm.ocr;
+package top.godtm.core.ocr;
 
 import java.util.List;
 

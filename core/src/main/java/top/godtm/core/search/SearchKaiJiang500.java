@@ -1,4 +1,4 @@
-package top.godtm.search;
+package top.godtm.core.search;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -9,8 +9,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import top.godtm.exception.BizException;
-import top.godtm.ocr.Record;
+import org.springframework.stereotype.Component;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.exception.BizException;
 
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
  * TODO
  * Created by jingangsheng on 28/01/2018.
  */
+@Component
 public class SearchKaiJiang500 implements ISearch {
     public static final String URL_TEMPLATE = "http://kaijiang.500.com/shtml/dlt/?.shtml";
 

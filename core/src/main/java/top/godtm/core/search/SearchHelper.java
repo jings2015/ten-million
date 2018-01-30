@@ -1,8 +1,6 @@
-package top.godtm.search;
+package top.godtm.core.search;
 
-import top.godtm.ocr.Record;
-
-import java.io.IOException;
+import top.godtm.core.ocr.Record;
 
 /**
  * 搜索开奖号码辅助类
@@ -28,7 +26,7 @@ public class SearchHelper {
 
         try {
             record = search.getAwardNumber(no);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO: 28/01/2018 logger
             e.printStackTrace();
         }

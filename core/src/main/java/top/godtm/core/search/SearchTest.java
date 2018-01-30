@@ -1,4 +1,4 @@
-package top.godtm.search;
+package top.godtm.core.search;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;

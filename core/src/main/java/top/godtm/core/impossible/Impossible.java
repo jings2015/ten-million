@@ -1,7 +1,7 @@
-package top.godtm.impossible;
+package top.godtm.core.impossible;
 
-import top.godtm.match.MatcherHelper;
-import top.godtm.ocr.Record;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.match.MatcherHelper;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

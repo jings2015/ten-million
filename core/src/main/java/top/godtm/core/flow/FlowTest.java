@@ -1,11 +1,11 @@
-package top.godtm.flow;
+package top.godtm.core.flow;
 
-import top.godtm.match.MatchResult;
-import top.godtm.match.MatcherHelper;
-import top.godtm.ocr.OcrHelper;
-import top.godtm.ocr.Record;
-import top.godtm.ocr.Ticket;
-import top.godtm.search.SearchHelper;
+import top.godtm.core.ocr.OcrHelper;
+import top.godtm.core.match.MatchResult;
+import top.godtm.core.match.MatcherHelper;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.ocr.Ticket;
+import top.godtm.core.search.SearchHelper;
 
 /**
  * TODO

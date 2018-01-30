@@ -1,7 +1,7 @@
-package top.godtm.match;
+package top.godtm.core.match;
 
-import top.godtm.ocr.Record;
-import top.godtm.ocr.Ticket;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.ocr.Ticket;
 
 /**
  * TODO

@@ -1,4 +1,4 @@
-package top.godtm.exception;
+package top.godtm.core.exception;
 
 /**
  * TODO

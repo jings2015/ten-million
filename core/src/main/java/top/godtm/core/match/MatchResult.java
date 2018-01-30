@@ -1,10 +1,9 @@
-package top.godtm.match;
+package top.godtm.core.match;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import top.godtm.ocr.Record;
-import top.godtm.ocr.Ticket;
+import top.godtm.core.ocr.Record;
+import top.godtm.core.ocr.Ticket;
 
 import java.util.List;
 

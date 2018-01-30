@@ -1,4 +1,4 @@
-package top.godtm.ocr;
+package top.godtm.core.ocr;
 
 /**
  * ocr辅助类
@@ -18,7 +18,7 @@ public class OcrHelper {
 
 
     private static class OcrHelperHolder{
-        public static final OcrHelper INSTANCE = new OcrHelper();
+        private static final OcrHelper INSTANCE = new OcrHelper();
     }
 
 
