@@ -38,6 +38,12 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.8</version>
 		</dependency>
+		<!-- 不严格的html5 thymeleaf的检测过于严格 使用这个可以 -->
+		<dependency>
+			<groupId>net.sourceforge.nekohtml</groupId>
+			<artifactId>nekohtml</artifactId>
+			<version>1.9.22</version>
+		</dependency>
 
 		<dependency>
 			<groupId>top.godtm</groupId>

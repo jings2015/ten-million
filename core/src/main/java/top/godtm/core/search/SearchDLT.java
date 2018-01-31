@@ -42,11 +42,12 @@ public class SearchDLT implements ISearch {
         String encashTime = root.elementText("EncashTime");
 
         Record record = new Record();
-        record.setRowNumber(periodicalNO);
+        record.setRowNumber("0");
         Arrays.stream(redball.split(",")).forEach(record::addRedBall);
         Arrays.stream(buleball.split(",")).forEach(record::addBlueBall);
         record.setResultTime(resultTime);
         record.setEncashTime(encashTime);
+        record.setPeriodicalNO(periodicalNO);
 
         CacheUtil.set(CacheUtil.DLT_PREFIX + no, record);
         return record;

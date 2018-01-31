@@ -176,13 +176,11 @@ public class BaiduOcr implements IOcr{
         String subStr = picWords.substring(startIndex, endIndex);
 
         String ret = this.getNumbersFromString(subStr);
-
-        if (14 > ret.length()) {
-            throw new RuntimeException("没有取到14位数字：" + ret);
-        } else if (14 < ret.length()) {
-            ret = ret.substring(0, 14);
+        if(ret.length()<14){
+            //todo 如果少于14位 暂时先用0填上  避免保存 测试用
+            ret = ret.concat("00000000000000");
         }
-
+        ret = ret.substring(0, 14);
         return ret;
     }
 

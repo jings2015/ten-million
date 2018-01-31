@@ -34,6 +34,13 @@ public class Record {
     @Setter
     private String encashTime;
 
+    /**
+     * 第几期
+     */
+    @Getter
+    @Setter
+    private String periodicalNO;
+
     public Record addRedBall(String number) {
         if (redBalls.size() == 5) {
             return this;

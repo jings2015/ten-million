@@ -1,5 +1,6 @@
 package top.godtm.starter.controller;
 
+import com.google.common.collect.Maps;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,20 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import top.godtm.core.match.IMatcher;
 import top.godtm.core.match.MatchResult;
 import top.godtm.core.match.Matcher;
 import top.godtm.core.ocr.BaiduOcr;
-import top.godtm.core.ocr.IOcr;
 import top.godtm.core.ocr.Record;
 import top.godtm.core.ocr.Ticket;
-import top.godtm.core.search.ISearch;
 import top.godtm.core.search.SearchDLT;
 import top.godtm.core.search.SearchKaiJiang500;
 
 import javax.servlet.ServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * TODO
@@ -71,7 +70,7 @@ public class TicketController {
 
         modelMap.addAttribute("result", matchResult.toString().split("\n"));
 
-        return "index";
+        return "home";
     }
 
     @RequestMapping("/getAwardRecord")
@@ -82,14 +81,23 @@ public class TicketController {
 
     @RequestMapping("/getMatchResult")
     @ResponseBody
-    public Object getMatchResult() {
-        MatchResult matchResult = new MatchResult();
-        return matchResult;
+    public Object getMatchResult(@RequestParam MultipartFile file) throws Exception {
+        Ticket ticket = baiduOcr.recognitionPic(file.getBytes());
+        Record awardRecord = searchKaiJiang500.getAwardNumber(ticket.getNo());
+        MatchResult matchResult = matcher.match(awardRecord, ticket);
+        Map<String, Object> map = Maps.newHashMap();
+        map.put("result", matchResult.toString().split("\n"));
+        return map;
     }
 
     @RequestMapping("/")
     public String index() {
-
         return "index";
+    }
+
+
+    @RequestMapping("/home")
+    public String home() {
+        return "home";
     }
 }
