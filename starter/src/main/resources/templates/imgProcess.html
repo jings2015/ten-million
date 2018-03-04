@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>大乐透兑奖识别</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>html5+exif.js+canvas实现手机端照片上传预览、压缩、旋转功能</title>
     <style>
         *{margin: 0;padding: 0;}
         li{list-style-type: none;}
@@ -21,35 +22,35 @@
     </style>
 </head>
 <body>
+<input type="file" id="choose" capture="camera" accept="image/*" multiple>
 
+<p>压缩前：</p>
+<ul class="img_list">
+    <!--<li style="background-image:url('/public/upload/upload.jpeg')">-->
+    <!--<div class="progress"><span style="width: 100%">上传成功</span></div>-->
+    <!--<div class="size">100KB</div>-->
+    <!--</li>-->
+</ul>
 
-<div>
-    <div>
-        <a id="addImg">添加图片</a>
-        <input type="file" id="choose"  accept="image/*" multiple>
-        <!--压缩前图片-->
-        <!--<ul class="img_list"/>-->
+<a id="addImg">添加图片</a>
+<span class="tips">只允许上传jpg、png</span>
 
-        <!--压缩后图片-->
-        <div>
-            <ul id="after_list" class="imgCompress_list"></ul>
-        </div>
+<p>压缩后：</p>
+<ul class="imgCompress_list">
+    <!--<li style="background-image:url('/public/upload/upload.jpeg')">-->
+    <!--<div class="progress"><span style="width: 100%">上传成功</span></div>-->
+    <!--<div class="size">100KB</div>-->
+    <!--</li>-->
+</ul>
 
-        <div id="submit">提交表单</div>
-    </div>
+<div id="submit">提交表单</div>
 
-    <!--显示结果-->
-    <div >
-        <ul id="result"></ul>
-    </div>
-
-</div>
-
-
+<!-- <div class="imgBigShow"></div> -->
 
 <!-- processImg.js是压缩图片插件，exif.js是矫正图片方向的插件，processImg.js依赖于exif.js，所以exif.js要processImg.js在之前引入 -->
 <script src="/exif.js"></script>
 <script src="/processImg.js"></script>
+<!-- 截止 -->
 
 <script type="text/javascript">
     var filechooser = document.getElementById("choose");
@@ -64,13 +65,6 @@
 
     //上传图片
     document.getElementById('submit').onclick = function(){
-        var result = document.getElementById("result");
-        if(result.hasChildNodes()){
-            for(var i = result.childNodes.length - 1;i>=0;i--) {
-                result.removeChild(result.childNodes[i]);
-            }
-        }
-
         if(blobFileList){
             blobFileList.forEach(function (blobFile, i) {
                 console.log('正在上传第'+(i+1)+'张图片')
@@ -83,14 +77,6 @@
     function getCompressiveFileList(fileList) {
         blobFileList = fileList;
         // console.log('fileBlobList:', fileList);
-
-        var afterList = document.getElementById("after_list");
-        if(afterList.hasChildNodes()){
-            for(var i = afterList.childNodes.length - 1;i>=0;i--) {
-                afterList.removeChild(afterList.childNodes[i]);
-            }
-        }
-
         fileList.forEach(function (blob) {
             var reader = new FileReader();
             reader.onload = function () {
@@ -106,19 +92,19 @@
     filechooser.onchange = function () {
         var fileList = this.files;
 
-//         console.log('fileList:', fileList);
+        // console.log('fileList:', fileList);
 
-//        //预览压缩前的图片
-//        var files = Array.prototype.slice.call(fileList);
-//        files.forEach(function (file, i) {
-//            var reader = new FileReader();
-//            reader.onload = function () {
-//                var li = document.createElement("LI")
-//                li.style.backgroundImage = 'url('+this.result+')';
-//                document.querySelector('.img_list').appendChild(li)
-//            }
-//            reader.readAsDataURL(file);
-//        });
+        //预览压缩前的图片
+        var files = Array.prototype.slice.call(fileList);
+        files.forEach(function (file, i) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var li = document.createElement("LI")
+                li.style.backgroundImage = 'url('+this.result+')';
+                document.querySelector('.img_list').appendChild(li)
+            }
+            reader.readAsDataURL(file);
+        });
 
         //处理图片列表，getCompressiveFileList接受处理后的图片数据列表
         var process = window.lzImgProcess();
@@ -136,7 +122,7 @@
         var xhr = new XMLHttpRequest();
 
         //链接你自己上传图片接口即可，这里的接口地址，是我写的示例，不可真实使用，讲解意义更大
-        xhr.open('post', '/upload2');
+        xhr.open('post', '/upload');
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -145,20 +131,6 @@
         };
 
         xhr.send(formData);
-
-        xhr.onreadystatechange = function () {
-            if(xhr.readyState === 4 && xhr.status === 200){
-                var li = document.createElement("LI");
-                var result = xhr.responseText;
-                var resultArr = result.split("\n");
-                resultArr.forEach(function (t) {
-                    li.innerHTML += t;
-                    li.innerHTML += "<br/>";
-                })
-
-                document.getElementById("result").appendChild(li);
-            }
-        }
     }
 </script>
 </body>

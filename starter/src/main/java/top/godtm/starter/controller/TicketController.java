@@ -1,6 +1,7 @@
 package top.godtm.starter.controller;
 
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,7 @@ import java.util.Map;
  * Created by jingangsheng on 28/01/2018.
  */
 @Controller
+@Slf4j
 public class TicketController {
 
     private static final int MAX_PIC_SIZE = 1024 * 1024;
@@ -48,6 +50,7 @@ public class TicketController {
         ByteArrayOutputStream baos = null;
         try {
             int originPicSize = multipartFile.getBytes().length;
+            log.info("文件大小：{}", originPicSize);
             if (originPicSize > MAX_PIC_SIZE) {
                 // 压缩图片
                 baos = new ByteArrayOutputStream();
@@ -73,6 +76,39 @@ public class TicketController {
         return "home";
     }
 
+    @RequestMapping("/upload2")
+    @ResponseBody
+    public String upload2(@RequestParam MultipartFile multipartFile) throws Exception {
+
+        byte[] fileBytes = null;
+
+        ByteArrayOutputStream baos = null;
+        try {
+            int originPicSize = multipartFile.getBytes().length;
+            log.info("文件大小：{}", originPicSize);
+            if (originPicSize > MAX_PIC_SIZE) {
+                // 压缩图片
+                baos = new ByteArrayOutputStream();
+                Thumbnails.of(multipartFile.getInputStream()).scale(1f).outputQuality(MAX_PIC_SIZE / originPicSize).toOutputStream(baos);
+                fileBytes = baos.toByteArray();
+            } else {
+                fileBytes = multipartFile.getBytes();
+            }
+        } catch (IOException e) {
+            try {
+                baos.close();
+            } catch (IOException ignored) {
+
+            }
+        }
+
+        Ticket ticket = baiduOcr.recognitionPic(fileBytes);
+        Record awardRecord = searchKaiJiang500.getAwardNumber(ticket.getNo());
+        MatchResult matchResult = matcher.match(awardRecord, ticket);
+
+        return matchResult.toString();
+    }
+
     @RequestMapping("/getAwardRecord")
     @ResponseBody
     public Object getAwardRecord(String no) throws Exception {
@@ -92,12 +128,6 @@ public class TicketController {
 
     @RequestMapping("/")
     public String index() {
-        return "index";
-    }
-
-
-    @RequestMapping("/home")
-    public String home() {
         return "home";
     }
 }
